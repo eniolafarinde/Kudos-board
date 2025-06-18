@@ -7,23 +7,30 @@ const imageUrl = (width = 400, height = 200) => {
 
 const CreateBoard = ({ onAddBoard }) => {
     const [title, setTitle] = useState('');
-    const [description, setDescription] = useState('');
     const [category, setCategory] = useState('celebration'); 
-    const [image, setImage] = useState(imageUrl(400, 200)); 
     const [author, setAuthor] = useState('');
 
-    const handleSubmit = (e) => {
+    const handleSubmit = async(e) => {
         e.preventDefault();
 
         const newBoard = {
-            id: Date.now().toString(),
-            title,
-            description,
-            category,
-            image: imageUrl(400, 200),
-            author: author || '', 
-            createdAt: new Date().toISOString(),
+            title : title,
+            category : category,
+            author: author
         };
+
+        // fetch
+        try {
+            const response = await fetch("http://localhost:3000/api/board/create", {
+                method : "POST",
+                headers : {
+                    "Content-Type" : "application/json"
+                },
+                body: JSON.stringify(newBoard)
+            })
+        } catch (error) {
+            throw new Error(error)
+        }
         onAddBoard(newBoard);
 
         setTitle('');

@@ -3,68 +3,34 @@ import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import HomePage from './components/HomePage';
 import './App.css'; 
 
-const imageUrl = (width = 400, height = 200) => {
-  return `https://picsum.photos/${width}/${height}?random=${Math.random()}`;
-};
-
-const fakeBoards = [
-  {
-    id: '1',
-    title: 'Welcome',
-    category: 'Inspiration',
-    image: imageUrl,
-  },
-  {
-    id: '2',
-    title: 'celebrate',
-    category: 'Celebration',
-    image: imageUrl,
-  },
-  {
-    id: '3',
-    title: 'thanks',
-    category: 'Thank you',
-    image: imageUrl,
-  },
-  {
-    id: '4',
-    title: 'daily inspiration',
-    category: 'Inspiration',
-    image: imageUrl,
-  },
-  {
-    id: '5',
-    title: 'project demos!',
-    category: 'Celebration',
-    image: imageUrl,
-  }
-];
-
-
-
 function App() {
-  const [allKudosBoards, setAllKudosBoards] = useState(() => {
-      const savedBoards = localStorage.getItem('kudosBoards');
-      if (savedBoards) {
-        return JSON.parse(savedBoards);
-      } else {
-        return fakeBoards.map(board => ({
-          ...board,
-          image: imageUrl(400, 200)
-        }));
-      }
-  });
+  // fetch boards from myy api
+  const [boards, setBoards] = useState([])
+  const getAllBoards = async() => {
+    try {
+      const response = await fetch("http://localhost:3000/api/board/all")
+      const data = await response.json()
+      return data
+    } catch (error) {
+      throw new Error(error)
+    }
+  }
+
   useEffect(() => {
-    localStorage.setItem('kudosBoards', JSON.stringify(allKudosBoards));
-  }, [allKudosBoards]);
+    const apiCall = async() => {
+      const res = await getAllBoards()
+      setBoards(res)
+    }
+    apiCall()
+  }, [])
 
-
+  // TODO
   const handleAddBoard = (newBoard) => {
-    setAllKudosBoards(prevBoards => [...prevBoards, newBoard]);
+    setBoards(prevBoards => [...prevBoards, newBoard]);
   };
 
   const handleDeleteBoard = (id) => {
-    setAllKudosBoards(prevBoards => prevBoards.filter(board => board.id !== id));
+    setBoards(prevBoards => prevBoards.filter(board => board.id !== id));
   };
 
   return (
@@ -74,7 +40,7 @@ function App() {
                 path="/"
                 element={
                     <HomePage
-                      kudosBoards={allKudosBoards}
+                      kudosBoards={boards}
                       onDelete={handleDeleteBoard}
                       onAddBoard={handleAddBoard}
                     />
