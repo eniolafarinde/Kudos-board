@@ -1,0 +1,89 @@
+.kudos-board-card {
+    background-color: #fff;
+    border: 1px solid #e0e0e0;
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
+    display: flex;
+    flex-direction: column;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+    position: relative;
+}
+
+.kudos-board-card:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.18);
+}
+
+.card-image {
+    width: 100%;
+    height: 250px;
+    object-fit: cover;
+}
+
+.card-content {
+    padding: 15px;
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+}
+
+.card-title {
+    font-size: 1.4em;
+    margin-top: 0;
+    margin-bottom: 8px;
+    color: #2c3e50;
+    line-height: 1.2;
+}
+
+.card-meta {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    color: #999;
+    margin-top: auto;
+    padding-top: 10px;
+    justify-content: center;
+}
+
+.card-actions {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    padding: 10px 15px;
+    gap: 10px; 
+}
+
+.view-board-button {
+    background-color: #fff; 
+    color: black;
+    border: 1px solid #e0e0e0;;
+    padding: 6px 15px;
+    border-radius: 6px;
+    cursor: pointer;
+    text-decoration: none;
+    text-align: center;
+    transition: background-color 0.2s ease, transform 0.1s ease;
+}
+
+.view-board-button:hover {
+    text-decoration: underline; 
+    transform: translateY(-1px);
+}
+
+.delete-button {
+    background-color: #348a82; 
+    color: white;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    flex-grow: 1;
+    transition: background-color 0.2s ease, transform 0.1s ease;
+    outline: none;
+}
+
+.delete-button:hover {
+    background-color: #2b7069; 
+    transform: translateY(-1px);
+    outline: none;
+}
