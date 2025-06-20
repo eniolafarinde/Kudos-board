@@ -57,6 +57,44 @@ function App() {
       return addedCard;
   }, []);
 
+  const getCommentsByCardIdApi = useCallback(async (cardId) => {
+      try {
+          const response = await fetch(`http://localhost:3000/api/cards/${cardId}/comments`);
+          if (!response.ok) {
+              if (response.status === 404) return []; 
+              const errorBody = await response.json().catch(() => ({ message: 'Unknown error' }));
+              throw new Error(`Failed to fetch comments: ${response.status} ${errorBody.message || response.statusText}`);
+          }
+          const comments = await response.json();
+          return comments;
+      } catch (err) {
+          console.error(`Error fetching comments for card ${cardId}:`, err);
+          throw err;
+      }
+  }, []);
+
+  const addCommentToCardApi = useCallback(async (cardId, newCommentData) => {
+      try {
+          const response = await fetch(`http://localhost:3000/api/cards/${cardId}/comments`, {
+              method: "POST",
+              headers: {
+                  "Content-Type": "application/json"
+              },
+              body: JSON.stringify(newCommentData)
+          });
+          if (!response.ok) {
+              const errorBody = await response.json().catch(() => ({ message: 'Unknown error' }));
+              throw new Error(`Failed to add comment: ${response.status} ${errorBody.message || response.statusText}`);
+          }
+          const addedComment = await response.json();
+          return addedComment;
+      } catch (err) {
+          console.error(`Error adding comment to card ${cardId}:`, err);
+          throw err;
+      }
+  }, []);
+
+
   useEffect(() => {
     const fetchBoards = async () => {
       const fetchedData = await getAllBoards(); 
@@ -101,7 +139,7 @@ function App() {
             }/>
           <Route
             path="/boards/:id"
-            element={<CardsPage onAddCard={handleAddCard} />}
+            element={<CardsPage onAddCard={handleAddCard} onAddComment={addCommentToCardApi} onGetCommentsByCardId={getCommentsByCardIdApi}/>}
           />
         </Routes>
       </Router>

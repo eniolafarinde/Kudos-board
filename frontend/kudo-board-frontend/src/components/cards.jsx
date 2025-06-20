@@ -3,14 +3,17 @@ import { useParams, Link } from 'react-router-dom';
 import Modal from './Modal';
 import CreateCard from './createCard'; 
 import './cards.css'; 
+import CommentModalContent from './CommentModal';
 
-const CardsPage = ({ onAddCard }) => {
+const CardsPage = ({ onAddCard, onAddComment, onGetCommentsByCardId }) => {
     const { id: boardId } = useParams();
     const [board, setBoard] = useState(null);
     const [cards, setCards] = useState([]);
     const [isLoading, setIsLoading] = useState(true);
     const [error, setError] = useState(null);
     const [isCreateCardModalOpen, setIsCreateCardModalOpen] = useState(false);
+    const [isCommentModalOpen, setIsCommentModalOpen] = useState(false); 
+    const [selectedCard, setSelectedCard] = useState(null); 
 
     const getBoardById = useCallback(async (id) => {
         try {
@@ -40,7 +43,7 @@ const CardsPage = ({ onAddCard }) => {
             console.error("Error fetching cards:", err);
             throw err;
         }
-    }, [boardId]);
+    }, []);
 
     useEffect(() => {
         const fetchBoardAndCards = async () => {
@@ -96,6 +99,16 @@ const CardsPage = ({ onAddCard }) => {
         }
     };
 
+    const handleOpenCommentModal = (card) => {
+        setSelectedCard(card);
+        setIsCommentModalOpen(true);
+    };
+
+    const handleCloseCommentModal = () => {
+        setSelectedCard(null);
+        setIsCommentModalOpen(false);
+    };
+
     if (isLoading) return <div className="cards-page-loading">Loading board...</div>;
     if (error) return <div className="cards-page-error">Error: {error}</div>;
     if (!board && !isLoading && !error) return <div className="cards-page-empty">Board data could not be loaded.</div>;
@@ -114,10 +127,12 @@ const CardsPage = ({ onAddCard }) => {
                 {cards.length > 0 ? (
                     cards.map(card => (
                         <div key={card.id} className="card-item">
-                            <h3 className="card-item-message">{card.title}</h3>
-                            <p className="card-item-message">{card.description}</p>
-                            {card.gifUrl && <img src={card.gifUrl} alt="Card GIF" className="card-item-gif" />}
-                            {card.author && <p className="card-item-author">From: {card.author}</p>}
+                            <div className="card-content-clickable" onClick={() => handleOpenCommentModal(card)}>
+                                <h3 className="card-item-message">{card.title}</h3>
+                                <p className="card-item-message">{card.description}</p>
+                                {card.gifUrl && <img src={card.gifUrl} alt="Card GIF" className="card-item-gif" />}
+                                {card.author && <p className="card-item-author">From: {card.author}</p>}
+                            </div>
                             <div className="card-action">
                                 <button onClick={() => handleUpvote(card.id)}>👍 {card.upvote}</button>
                                 <button onClick={() => handleDelete(card.id)}>🗑️</button>
@@ -133,6 +148,16 @@ const CardsPage = ({ onAddCard }) => {
                     onAddCard={handleCreateCardSubmit}
                     onCloseModal={() => setIsCreateCardModalOpen(false)}
                 />
+            </Modal>
+            <Modal isOpen={isCommentModalOpen} onClose={handleCloseCommentModal}>
+                {selectedCard && (
+                    <CommentModalContent
+                        card={selectedCard}
+                        onClose={handleCloseCommentModal}
+                        onCommentAdded={onAddComment} // Pass the API function from App.jsx
+                        getCommentsApi={onGetCommentsByCardId} // Pass the API function from App.jsx
+                    />
+                )}
             </Modal>
         </div>
     );
