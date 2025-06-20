@@ -1,55 +1,62 @@
 import React, { useState, useEffect } from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import HomePage from './components/HomePage';
-import './App.css'; 
+import CardsPage from './components/cards'; // include this if you are navigating to /boards/:id
+import './App.css';
 
 function App() {
-  // fetch boards from myy api
-  const [boards, setBoards] = useState([])
-  const getAllBoards = async() => {
-    try {
-      const response = await fetch("http://localhost:3000/api/board/all")
-      const data = await response.json()
-      return data
-    } catch (error) {
-      throw new Error(error)
-    }
-  }
+  const [boards, setBoards] = useState([]);
+
+  const getAllBoards = async () => {
+    const res = await fetch("http://localhost:3000/api/board/all");
+    return await res.json();
+  };
+
+  const deleteBoard = async (boardId) => {
+    await fetch("http://localhost:3000/api/board/delete", {
+      method: "DELETE",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify({ id: boardId })
+    });
+    const updatedBoards = await getAllBoards();
+    setBoards(updatedBoards);
+  };
 
   useEffect(() => {
-    const apiCall = async() => {
-      const res = await getAllBoards()
-      setBoards(res)
-    }
-    apiCall()
-  }, [])
+    getAllBoards().then((data) => setBoards(data));
+  }, []);
 
-  // TODO
   const handleAddBoard = (newBoard) => {
-    setBoards(prevBoards => [...prevBoards, newBoard]);
+    setBoards((prevBoards) => [...prevBoards, newBoard]);
   };
 
   const handleDeleteBoard = (id) => {
-    setBoards(prevBoards => prevBoards.filter(board => board.id !== id));
+    deleteBoard(id);
   };
 
   return (
     <div className="App">
+      <Router>
         <Routes>
-            <Route
-                path="/"
-                element={
-                    <HomePage
-                      kudosBoards={boards}
-                      onDelete={handleDeleteBoard}
-                      onAddBoard={handleAddBoard}
-                    />
-                }
-            />
+          <Route
+            path="/"
+            element={
+              <HomePage
+                kudosBoards={boards}
+                onDelete={handleDeleteBoard}
+                onAddBoard={handleAddBoard}
+              />
+            }
+          />
+          <Route path="/boards/:id" element={<CardsPage />} />
         </Routes>
+
+      </Router>
+
     </div>
   );
 }
 
 export default App;
-
