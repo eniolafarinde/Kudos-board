@@ -1,4 +1,3 @@
--- CreateTable
 CREATE TABLE "Board" (
     "id" SERIAL NOT NULL,
     "title" TEXT NOT NULL,
@@ -9,7 +8,6 @@ CREATE TABLE "Board" (
     CONSTRAINT "Board_pkey" PRIMARY KEY ("id")
 );
 
--- CreateTable
 CREATE TABLE "Card" (
     "id" SERIAL NOT NULL,
     "title" TEXT NOT NULL,
