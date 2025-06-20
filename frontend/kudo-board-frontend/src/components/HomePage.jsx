@@ -4,8 +4,10 @@ import KudosBoardCard from './KudosBoardCard';
 import CreateBoard from './createBoard';
 import Modal from './Modal';
 import './HomePage.css';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faSun, faMoon } from '@fortawesome/free-solid-svg-icons';
 
-const HomePage = ({ kudosBoards, onDelete, onAddBoard }) => {
+const HomePage = ({ kudosBoards, onDelete, onAddBoard, theme, toggleTheme }) => {
     const [filterCategory, setFilterCategory] = useState('all');
     const [searchTerm, setSearchTerm] = useState('');
     const [isModalOpen, setIsModalOpen] = useState(false);
@@ -34,7 +36,18 @@ const HomePage = ({ kudosBoards, onDelete, onAddBoard }) => {
     return (
         <div className="container">
             <header className="header">
-                <img className="logo" src={logo} alt="logo" />
+                <h2 className="logo">KUDOS BOARD</h2>
+                <button onClick={toggleTheme} className="theme-toggle-button">
+                    {theme === 'light' ? (
+                        <>
+                            <FontAwesomeIcon icon={faMoon} /> Dark Mode
+                        </>
+                    ) : (
+                        <>
+                            <FontAwesomeIcon icon={faSun} /> Light Mode
+                        </>
+                    )}
+                </button>
             </header>
             <main>
                 <div className="actions">

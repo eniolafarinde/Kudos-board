@@ -1,41 +1,89 @@
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400;1,500;1,600;1,700&display=swap');
+
 :root {
-  font-family: system-ui, Avenir, Helvetica, Arial, sans-serif;
-  line-height: 1.5;
-  font-weight: 400;
-  font-synthesis: none;
-  text-rendering: optimizeLegibility;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+  --font-family: 'Montserrat', sans-serif;
+  --background-color: #ffffff; 
+  --text-color: #343a40; 
+  --muted-text-color: #6c757d; 
+  --muted-bg: #e9ecef;
+  --input-bg: #ffffff;
+  --input-text: #495057;
+  --input-placeholder: #6c757d;
+  --input-border: #ced4da;
+  --input-focus-border: #80bdff;
+  --input-focus-shadow: rgba(0, 123, 255, 0.25);
+  --button-primary-bg: #348a82;
+  --button-primary-text: #ffffff;
+  --button-primary-hover-bg: #2b7069;
+  --category-button-bg: #f0f0f0;
+  --category-button-text: #333;
+  --category-button-border: #ccc;
+  --category-button-hover-bg: #e0e0e0;
+  --category-button-active-bg: #348a82;
+  --category-button-active-text: #ffffff;
+  --create-board-button-bg: #f0f0f0;
+  --create-board-button-text: #333;
+  --create-board-button-border: #ccc;
+  --create-board-button-hover-bg: #e0e0e0;
+  --create-board-button-hover-border: #bbb;
+  --box-shadow-color: rgba(0, 0, 0, 0.1); 
+  --border-color: #e0e0e0; 
+  --card-bg: #ffffff;
+  --card-border: #e0e0e0;
+  --upvote-color: #4CAF50;
+  --pin-color: #348a82;
+  --pin-color-shadow: #348a82;
+  --modal-overlay-bg: rgba(0, 0, 0, 0.5);
+  --modal-content-bg: #ffffff;
+  --button-info-bg: #17a2b8;
+  --button-info-text: #ffffff;
 }
 
-
-h1 {
-  font-size: 3.2em;
-  line-height: 1.1;
+/* --- Dark Mode Overrides --- */
+body.dark {
+  --background-color: #303030;
+  --text-color: #f0f0f0;
+  --muted-text-color: #aaaaaa;
+  --muted-bg: #2c2c2c;
+  --input-bg: #2c2c2c;
+  --input-text: #e0e0e0;
+  --input-placeholder: #999999;
+  --input-border: #555555;
+  --input-focus-border: #88bbff;
+  --input-focus-shadow: rgba(136, 187, 255, 0.25);
+  --button-primary-bg: #41AAA0;
+  --button-primary-text: #ffffff;
+  --button-primary-hover-bg: #3c9e94;
+  --category-button-bg: #2c2c2c;
+  --category-button-text: #e0e0e0;
+  --category-button-border: #444444;
+  --category-button-hover-bg: #3c3c3c;
+  --category-button-active-bg: #348a82;
+  --category-button-active-text: #ffffff;
+  --create-board-button-bg: #2c2c2c;
+  --create-board-button-text: #e0e0e0;
+  --create-board-button-border: #444444;
+  --create-board-button-hover-bg: #3c3c3c;
+  --create-board-button-hover-border: #555555;
+  --box-shadow-color: rgba(255, 255, 255, 0.1);
+  --border-color: #444444;
+  --card-bg: #2c2c2c;
+  --card-border: #444444;
+  --upvote-color: #41AAA0;
+  --pin-color: #41AAA0;
+  --pin-color-shadow: #41AAA0;
+  --modal-overlay-bg: rgba(0, 0, 0, 0.8);
+  --modal-content-bg: #333333;
+  --button-danger-bg: #cc0000;
+  --button-danger-text: #ffffff;
+  --button-info-bg: #117a8b;
+  --button-info-text: #ffffff;
 }
 
-button {
-  border-radius: 8px;
-  border: 1px solid transparent;
-  padding: 0.6em 1.2em;
-  font-size: 1em;
-  font-weight: 500;
-  font-family: inherit;
-  background-color: #1a1a1a;
-  cursor: pointer;
-  transition: border-color 0.25s;
-}
-
-
-@media (prefers-color-scheme: light) {
-  :root {
-    color: #213547;
-    background-color: #ffffff;
-  }
-  a:hover {
-    color: #747bff;
-  }
-  button {
-    background-color: #f9f9f9;
-  }
+body {
+  margin: 0;
+  font-family: var(--font-family);
+  background-color: var(--background-color); 
+  color: var(--text-color);
+  transition: background-color 0.3s ease, color 0.3s ease; 
 }

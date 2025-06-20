@@ -1,11 +1,24 @@
-import React, { useState, useEffect, useCallback, useMemo } from 'react'; // Added useMemo
+// src/components/cards.jsx
+import React, { useState, useEffect, useCallback, useMemo } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import Modal from './Modal';
 import CreateCard from './createCard';
-import CommentModalContent from './CommentModal';
+import CommentModalContent from './CommentModal'; // Corrected import based on file name expectation
 import './cards.css';
 
-const CardsPage = ({ onAddCard, onAddComment, onGetCommentsByCardId, onPinToggle }) => { // <--- NEW PROP
+// --- NEW: Font Awesome Imports ---
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import {
+    faThumbsUp,
+    faTrashCan, // More modern trash can icon
+    faThumbtack, // For pinning
+    faSun, // For theme toggle
+    faMoon // For theme toggle
+} from '@fortawesome/free-solid-svg-icons';
+// --- END NEW ---
+
+// --- MODIFIED: Added theme and toggleTheme props back ---
+const CardsPage = ({ onAddCard, onAddComment, onGetCommentsByCardId, onPinToggle, theme, toggleTheme }) => {
     const { id: boardId } = useParams();
     const [board, setBoard] = useState(null);
     const [cards, setCards] = useState([]);
@@ -79,6 +92,10 @@ const CardsPage = ({ onAddCard, onAddComment, onGetCommentsByCardId, onPinToggle
             const res = await fetch(`http://localhost:3000/api/board/${boardId}/cards/${cardId}/upvote`, {
                 method: 'PATCH'
             });
+            if (!res.ok) {
+                const errorBody = await res.json().catch(() => ({ message: 'Unknown error' }));
+                throw new Error(`Failed to upvote: ${res.status} ${errorBody.message || res.statusText}`);
+            }
             const updatedCard = await res.json();
             setCards(prev =>
                 prev.map(card => card.id === cardId ? updatedCard : card)
@@ -95,6 +112,10 @@ const CardsPage = ({ onAddCard, onAddComment, onGetCommentsByCardId, onPinToggle
             const res = await fetch(`http://localhost:3000/api/board/${boardId}/cards/${cardId}`, {
                 method: 'DELETE'
             });
+            if (!res.ok && res.status !== 204) { // 204 No Content is a valid successful delete status
+                const errorBody = await res.json().catch(() => ({ message: 'Unknown error' }));
+                throw new Error(`Failed to delete: ${res.status} ${errorBody.message || res.statusText}`);
+            }
             setCards(prevCards => prevCards.filter(card => card.id !== cardId));
         } catch (err) {
             console.error("Delete failed:", err);
@@ -132,8 +153,8 @@ const CardsPage = ({ onAddCard, onAddComment, onGetCommentsByCardId, onPinToggle
 
         pinned.sort((a, b) => {
             if (!a.pinnedAt && !b.pinnedAt) return 0;
-            if (!a.pinnedAt) return 1; 
-            if (!b.pinnedAt) return -1; 
+            if (!a.pinnedAt) return 1;
+            if (!b.pinnedAt) return -1;
             return new Date(b.pinnedAt).getTime() - new Date(a.pinnedAt).getTime();
         });
 
@@ -151,8 +172,23 @@ const CardsPage = ({ onAddCard, onAddComment, onGetCommentsByCardId, onPinToggle
 
     return (
         <div className="cards-page-container">
-            <Link to="/" className="back-to-boards-button">← Back to All Boards</Link>
-            <h1 className="board-title">{board.title}</h1>
+            <header className="cards-page-header"> {/* Re-added header for consistent layout */}
+                <Link to="/" className="back-to-boards-button">← Back to All Boards</Link>
+                <h1 className="board-title">{board.title}</h1>
+                {/* --- Theme Toggle Button with Icon --- */}
+                {/* <button onClick={toggleTheme} className="theme-toggle-button">
+                    {theme === 'light' ? (
+                        <>
+                            <FontAwesomeIcon icon={faMoon} /> Dark Mode
+                        </>
+                    ) : (
+                        <>
+                            <FontAwesomeIcon icon={faSun} /> Light Mode
+                        </>
+                    )}
+                </button> */}
+                {/* --- END Theme Toggle --- */}
+            </header>
             <div className="board-meta">
                 Category: {board.category}
             </div>
@@ -164,10 +200,11 @@ const CardsPage = ({ onAddCard, onAddComment, onGetCommentsByCardId, onPinToggle
             </div>
 
             <div className="card-list">
-                {sortedCards.length > 0 ? ( 
+                {sortedCards.length > 0 ? (
                     sortedCards.map(card => (
-                        <div key={card.id} className={`card-item ${card.isPinned ? 'pinned-card' : ''}`}> {/* --- ADD CLASS FOR VISUAL FEEDBACK --- */}
-                            {card.isPinned && <span className="pin-icon" title="Pinned">&#128204;</span>} {/* --- PIN ICON --- */}
+                        <div key={card.id} className={`card-item ${card.isPinned ? 'pinned-card' : ''}`}>
+                            {/* --- MODIFIED: Pin Icon --- */}
+                            {card.isPinned && <FontAwesomeIcon icon={faThumbtack} className="pin-icon" title="Pinned" />}
                             <div className="card-content-clickable" onClick={() => handleOpenCommentModal(card)}>
                                 <h3 className="card-item-message">{card.title}</h3>
                                 <p className="card-item-message">{card.description}</p>
@@ -175,11 +212,18 @@ const CardsPage = ({ onAddCard, onAddComment, onGetCommentsByCardId, onPinToggle
                                 {card.author && <p className="card-item-author">From: {card.author}</p>}
                             </div>
 
-                            <div className="card-action">
-                                <button onClick={() => handleUpvote(card.id)}>👍 {card.upvote}</button>
-                                <button onClick={() => handleDelete(card.id)}>🗑️</button>
+                            <div className="card-actions"> {/* Changed from card-action to card-actions for consistency */}
+                                {/* --- MODIFIED: Upvote Icon --- */}
+                                <button onClick={() => handleUpvote(card.id)}>
+                                    <FontAwesomeIcon icon={faThumbsUp} /> {card.upvote}
+                                </button>
+                                {/* --- MODIFIED: Delete Icon --- */}
+                                <button onClick={() => handleDelete(card.id)}>
+                                    <FontAwesomeIcon icon={faTrashCan} />
+                                </button>
+                                {/* --- MODIFIED: Pin/Unpin Icon --- */}
                                 <button onClick={() => handlePinToggle(card.id)}>
-                                    {card.isPinned ? 'Unpin' : 'Pin'} &#128204; 
+                                    <FontAwesomeIcon icon={faThumbtack} /> {card.isPinned ? 'Unpin' : 'Pin'}
                                 </button>
                             </div>
                         </div>

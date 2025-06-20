@@ -12,7 +12,7 @@ const KudosBoardCard = ({ board, onDelete }) => {
                     {board.category}
                 </div>
             </div>
-            <div className="card-actions"> 
+            <div className="card-action"> 
                 <Link to={`/boards/${board.id}`} className="view-board-button"> View Board </Link>
                 <button className="delete-button"
                     onClick={() => {

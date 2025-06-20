@@ -34,7 +34,7 @@ model Card {
   boardId     Int
   comments    Comment[]
   isPinned    Boolean  @default(false)
-  pinnedAt    DateTime?
+  pinnedAt    DateTime? 
 }
 
 model Comment {

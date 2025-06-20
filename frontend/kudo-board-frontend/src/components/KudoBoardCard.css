@@ -46,7 +46,7 @@
     justify-content: center;
 }
 
-.card-actions {
+.card-action {
     display: flex;
     justify-content: space-around;
     align-items: center;
@@ -56,9 +56,10 @@
 
 .view-board-button {
     background-color: #fff; 
+    width: 6rem;
     color: black;
     border: 1px solid #e0e0e0;;
-    padding: 6px 15px;
+    padding: 8px;
     border-radius: 6px;
     cursor: pointer;
     text-decoration: none;
@@ -77,9 +78,12 @@
     border: none;
     border-radius: 6px;
     cursor: pointer;
-    flex-grow: 1;
+    width: 8rem;
     transition: background-color 0.2s ease, transform 0.1s ease;
     outline: none;
+    padding: 10px;
+    font-family: var(--font-family);
+    font-size: 1em;
 }
 
 .delete-button:hover {

@@ -1,66 +1,103 @@
+/* src/components/cards.css */
+
+/* Main container for the cards page */
 .cards-page-container {
-    padding: 20px;
-    max-width: 1000px;
+    padding: 4rem; 
     margin: 20px auto;
-    background-color: #f9f9f9;
+    background-color: var(--background-color); /* Themed background */
+    color: var(--text-color); /* Themed text */
     border-radius: 8px;
-    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+    transition: background-color 0.3s ease, color 0.3s ease, box-shadow 0.3s ease;
 }
 
+/* Loading, Error, Empty Messages */
 .cards-page-loading,
 .cards-page-error,
 .cards-page-empty {
     text-align: center;
     padding: 50px;
     font-size: 1.2em;
-    color: #555;
+    color: var(--muted-text-color); /* Themed muted text */
+    transition: color 0.3s ease;
 }
 
+/* Header Section for Board Title and Buttons */
+.cards-page-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 30px;
+    padding-bottom: 20px;
+    border-bottom: 1px solid var(--card-border); /* Themed border */
+    flex-wrap: wrap; /* Allow wrapping on smaller screens */
+    gap: 15px; /* Spacing between header items if they wrap */
+}
+
+/* Back to Boards Button */
 .back-to-boards-button {
     display: inline-block;
-    margin-bottom: 20px;
     padding: 10px 15px;
-    background-color: #348a82;
-    color: white;
+    background-color: var(--button-primary-bg); /* Themed primary button background */
+    color: var(--button-primary-text); /* Themed primary button text */
     text-decoration: none;
     border-radius: 5px;
-    transition: background-color 0.2s ease;
+    transition: background-color 0.3s ease;
+    white-space: nowrap; /* Prevent text wrapping */
 }
 
 .back-to-boards-button:hover {
-    background-color: #2b7069;
+    background-color: var(--button-primary-hover-bg); /* Themed primary button hover */
 }
 
+/* Board Title */
 .board-title {
     font-size: 2.5em;
-    color: #333;
-    margin-bottom: 10px;
-    border-bottom: 2px solid #eee;
-    padding-bottom: 10px;
-    background-color: #fff;
+    color: var(--text-color); /* Themed text */
+    margin: 0;
+    text-align: center;
+    flex-grow: 1; /* Allow title to take available space */
+    padding: 0 10px; /* Add some padding if it's very wide */
 }
 
-.board-description {
-    font-size: 1.1em;
-    color: #666;
-    margin-bottom: 15px;
-    background-color: #fff;
-}
-
-.board-meta {
+/* Theme Toggle Button (common style, also in homepage.css) */
+.theme-toggle-button {
+    background-color: var(--button-info-bg);
+    color: var(--button-info-text);
+    border: none;
+    border-radius: 5px;
+    padding: 8px 15px;
     font-size: 0.9em;
-    color: #888;
-    margin-bottom: 20px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    margin-left: 15px;
+    display: flex; /* For icon and text alignment */
+    align-items: center;
+    gap: 8px; /* Space between icon and text */
+    white-space: nowrap;
 }
 
+.theme-toggle-button:hover {
+    background-color: var(--button-info-hover-bg); /* Assuming you'll add this to App.css if needed */
+}
+
+/* Board Metadata (Category) */
+.board-meta {
+    font-size: 1em;
+    color: var(--text-color); /* Themed text */
+    margin-bottom: 30px;
+    text-align: center;
+    width: 100%; /* Ensure it spans full width below title */
+}
+
+/* Create Card Section and Button */
 .create-card-section {
     text-align: center;
     margin: 30px 0;
 }
 
 .create-card-button {
-    background-color: #348a82;
-    color: white;
+    background-color: var(--button-success-bg); /* Themed success button background */
+    color: var(--button-success-text); /* Themed success button text */
     padding: 12px 25px;
     border: none;
     border-radius: 8px;
@@ -70,10 +107,11 @@
 }
 
 .create-card-button:hover {
-    background-color: #2b7069;
+    background-color: var(--button-success-hover-bg); /* Themed success button hover */
     transform: translateY(-2px);
 }
 
+/* Card List Grid */
 .card-list {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
@@ -81,80 +119,141 @@
     margin-top: 30px;
 }
 
+/* Individual Card Item */
+.card-item {
+    background-color: var(--card-bg); /* Themed card background */
+    border: 1px solid var(--card-border); /* Themed card border */
+    border-radius: 10px;
+    box-shadow: 0 2px 8px var(--box-shadow-color); /* Themed shadow */
+    overflow: hidden;
+    transition: transform 0.2s ease, box-shadow 0.2s ease, background-color 0.3s ease, border-color 0.3s ease;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    min-height: 300px;
+    position: relative;
+}
+
 .card-item:hover {
     transform: translateY(-5px);
+    box-shadow: 0 4px 12px var(--box-shadow-color); /* Stronger shadow on hover */
 }
 
-.card-item-image {
-    width: 100%;
-    height: 150px; 
-    object-fit: cover; 
-    display: block; 
-    border-bottom: 1px solid #eee;
+/* Pinned Card specific styling */
+.pinned-card {
+    border-left: 5px solid var(--pin-color); /* Visual indicator for pinned */
 }
 
-.card-item-title {
-    font-size: 1.3em;
-    color: #333;
-    margin: 15px 15px 5px;
+/* Pin Icon on the card itself */
+.pin-icon {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    color: var(--pin-color); 
+    font-size: 1.5em;
+    z-index: 10;
+    filter: drop-shadow(0 0 3px var(--pin-color-shadow));
 }
 
-.card-item-description {
-    font-size: 0.95em;
-    color: #555;
-    padding: 0 15px 15px;
-    flex-grow: 1; 
-}
-
-.no-cards-message {
-    grid-column: 1 / -1; 
-    text-align: center;
-    color: #777;
-    font-style: italic;
-    padding: 20px;
-}
-
-.card-action button{
-    background-color: #fff;
-    border: none;
-    outline: none;
-    cursor: pointer;
-    padding: 0.6em 1.2em;
-}
-
-.card-item {
-    background-color: #ffffff;
-    border: 1px solid #ddd;
-    border-radius: 10px;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
-    overflow: hidden;
-    transition: transform 0.2s ease;
-    display: flex;
-    flex-direction: column;
-    display: flex;
-    flex-direction: column; 
-    justify-content: space-between; 
-    min-height: 300px; 
-    position: relative; 
-}
-
-
+/* Clickable Content Area of the Card */
 .card-content-clickable {
-    cursor: pointer; 
-    flex-grow: 1; 
+    cursor: pointer;
+    flex-grow: 1;
     display: flex;
     flex-direction: column;
+    padding-bottom: 15px; /* Space above action buttons */
     transition: background-color 0.2s ease;
 }
 
 .card-content-clickable:hover {
-    background-color: #f0f0f0; 
+    background-color: var(--card-hover-bg); /* Themed hover background */
+    border-radius: 5px; /* Keep consistent border radius */
+}
+
+/* Image within Card */
+.card-item-gif { /* Changed from card-item-image for clarity */
+    width: 100%;
+    height: 150px;
+    object-fit: cover;
+    display: block;
+    border-bottom: 1px solid var(--card-border); /* Themed border */
+}
+
+/* Card Text Elements */
+.card-item-message { /* Combined title and description into a single class for styling */
+    font-size: 1.1em; /* Adjust as needed for specific text */
+    color: var(--text-color); /* Themed text */
+    margin: 10px 15px 5px;
+}
+
+.card-item-message:last-of-type { /* Adjust bottom margin for last paragraph */
+    margin-bottom: 15px;
+}
+
+/* Author of the card */
+.card-item-author {
+    font-size: 0.85em;
+    color: var(--muted-text-color); /* Themed muted text */
+    margin: 5px 15px;
+}
+
+/* --- Card Actions (buttons at the bottom of the card) --- */
+.card-actions { /* Renamed from .card-action to be more descriptive and allow for multiple buttons */
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    padding: 10px 15px;
+    background-color: var(--card-bg); /* Match card background or create specific action bar bg */
+    border-top: 1px solid var(--card-border); /* Themed border */
+    gap: 10px; /* Space between buttons */
+}
+
+.card-actions button {
+    background-color: var(--button-icon-bg); /* Themed button background */
+    color: var(--button-icon-color); /* Themed icon color */
+    border: 1px solid var(--card-border); /* Add a subtle border for definition */
     border-radius: 5px;
+    outline: none;
+    cursor: pointer;
+    padding: 8px 12px;
+    font-size: 1em; /* Adjust icon size through font-size */
+    display: flex; /* For icon and text alignment */
+    align-items: center;
+    gap: 5px; /* Space between icon and text */
+    transition: background-color 0.2s ease, color 0.2s ease, border-color 0.2s ease;
+    flex-grow: 1; /* Allow buttons to grow to fill space */
+    justify-content: center; /* Center content within button */
 }
 
-.card-content-clickable h3,
-.card-content-clickable p,
-.card-content-clickable img {
-    margin-bottom: 10px;
+.card-actions button:hover {
+    background-color: var(--card-hover-bg); /* Themed hover background for action buttons */
+    border-color: var(--text-color); /* Stronger border on hover */
 }
 
+/* Specific styling for Upvote button (optional) */
+.card-actions button:first-child { /* Assuming upvote is first */
+    color: var(--upvote-color); /* Themed upvote color */
+    /* Add specific hover for upvote if desired */
+}
+.card-actions button:first-child:hover {
+    background-color: rgba(76, 175, 80, 0.1); /* Light green hover effect */
+}
+
+
+/* No Cards Message */
+.no-cards-message {
+    grid-column: 1 / -1;
+    text-align: center;
+    color: var(--muted-text-color); /* Themed muted text */
+    font-style: italic;
+    padding: 20px;
+    background-color: var(--muted-bg); /* Themed muted background */
+    border-radius: 8px;
+    margin-top: 20px;
+    transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+/* Specific styles for card items using Font Awesome classes (optional, direct styling is preferred) */
+.card-actions .fa-icon { /* If you want to target the icon itself */
+    margin-right: 5px;
+}

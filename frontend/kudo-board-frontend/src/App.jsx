@@ -6,6 +6,15 @@ import './App.css';
 
 function App() {
   const [boards, setBoards] = useState([]);
+  const [theme, setTheme] = useState('light');
+
+  useEffect(() => {
+    document.body.className = theme
+  }, [theme]);
+  
+  const toggleTheme = useCallback(() => {
+    setTheme(prevTheme => prevTheme === 'light' ? 'dark' :'light');
+  })
 
   const getRandomImageUrl = useCallback((width = 400, height = 200) => {
     return `https://picsum.photos/${width}/${height}?random=${Math.random()}`;
@@ -155,11 +164,11 @@ function App() {
           <Route
             path="/"
             element={
-              <HomePage kudosBoards={boards} onDelete={handleDeleteBoard} onAddBoard={handleAddBoard}/>
+              <HomePage kudosBoards={boards} onDelete={handleDeleteBoard} onAddBoard={handleAddBoard} theme={theme} toggleTheme={toggleTheme}/>
             }/>
           <Route
             path="/boards/:id"
-            element={<CardsPage onAddCard={handleAddCard} onAddComment={addCommentToCardApi} onGetCommentsByCardId={getCommentsByCardIdApi} onPinToggle={toggleCardPinApi}/>}
+            element={<CardsPage onAddCard={handleAddCard} onAddComment={addCommentToCardApi} onGetCommentsByCardId={getCommentsByCardIdApi} onPinToggle={toggleCardPinApi} theme={theme} toggleTheme={toggleTheme}/>}
           />
         </Routes>
       </Router>
