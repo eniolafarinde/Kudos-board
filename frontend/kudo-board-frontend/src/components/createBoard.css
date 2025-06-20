@@ -1,14 +1,14 @@
 .create-board-container {
     max-width: 500px;
     margin: 40px auto;
-    background-color: #ffffff;
+    background-color: var(--background-color);
     border-radius: 12px;
     font-family: 'Montserrat', sans-serif; 
 }
 
 .create-board-title {
     text-align: center;
-    color: black;
+    color: var(--text-color);
     margin-bottom: 30px;
     font-size: 2.2em;
     font-weight: 700;
@@ -22,7 +22,7 @@
     display: block;
     margin-bottom: 8px;
     font-weight: 600;
-    color: #343a40;
+    color: var(--text-color);
     text-align: left;
 }
 
@@ -34,9 +34,9 @@
     border: 1px solid #ced4da;
     border-radius: 8px;
     font-size: 1em;
-    color: #495057;
+    color: var(--input-text);
     transition: border-color 0.2s ease, box-shadow 0.2s ease;
-    background-color: #fff
+    background-color: var(--input-bg);
 }
 
 .create-board-form input[type="text"]:focus,

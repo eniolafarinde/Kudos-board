@@ -74,8 +74,6 @@ body.dark {
   --pin-color-shadow: #41AAA0;
   --modal-overlay-bg: rgba(0, 0, 0, 0.8);
   --modal-content-bg: #333333;
-  --button-danger-bg: #cc0000;
-  --button-danger-text: #ffffff;
   --button-info-bg: #117a8b;
   --button-info-text: #ffffff;
 }
@@ -86,4 +84,5 @@ body {
   background-color: var(--background-color); 
   color: var(--text-color);
   transition: background-color 0.3s ease, color 0.3s ease; 
+  padding: 10px;
 }

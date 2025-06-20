@@ -1,7 +1,4 @@
-/* src/components/homepage.css *
-
-/* --- Added from your new CSS --- */
-.header { /* Assuming .homepage-header matches this, otherwise integrate */
+.header {
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -10,8 +7,8 @@
     padding-bottom: 20px;
 }
 
-.header .logo { /* Assuming this is part of your logo image */
-    max-width: 150px;
+.header .logo {
+    max-width: 250px;
     height: auto;
     margin-bottom: 15px;
 }
@@ -37,27 +34,27 @@
     flex-grow: 1;
     min-width: 200px;
     padding: 12px 15px;
-    border: 1px solid var(--input-border); /* Use variable */
+    border: 1px solid var(--input-border); 
     border-radius: 8px;
     font-size: 1em;
-    color: var(--input-text); /* Use variable */
-    background: var(--input-bg); /* Use variable */
+    color: var(--input-text); 
+    background: var(--input-bg);
     transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease;
 }
 
 .search-input::placeholder {
-    color: var(--input-placeholder); /* Use variable */
+    color: var(--input-placeholder); 
 }
 
 .search-input:focus {
     outline: none;
-    border-color: var(--input-focus-border); /* Use variable */
-    box-shadow: 0 0 0 0.2rem var(--input-focus-shadow); /* Use variable */
+    border-color: var(--input-focus-border); 
+    box-shadow: 0 0 0 0.2rem var(--input-focus-shadow); 
 }
 
 .search-button, .clear-search-button {
-    background-color: var(--button-primary-bg); /* Use variable */
-    color: var(--button-primary-text); /* Use variable */
+    background-color: var(--button-primary-bg);
+    color: var(--button-primary-text);
     padding: 10px 20px;
     border: none;
     border-radius: 8px;
@@ -68,7 +65,7 @@
 }
 
 .search-button:hover, .clear-search-button:hover {
-    background-color: var(--button-primary-hover-bg); /* Use variable */
+    background-color: var(--button-primary-hover-bg);
 }
 
 .category-buttons-container {
@@ -80,10 +77,10 @@
 }
 
 .category-button {
-    background-color: var(--category-button-bg); /* Use variable */
-    color: var(--category-button-text); /* Use variable */
+    background-color: var(--category-button-bg); 
+    color: var(--category-button-text);
     padding: 10px 20px;
-    border: 1px solid var(--category-button-border); /* Use variable */
+    border: 1px solid var(--category-button-border);
     border-radius: 8px;
     cursor: pointer;
     font-size: 1em;
@@ -93,16 +90,16 @@
 }
 
 .category-button:hover {
-    background-color: var(--category-button-hover-bg); /* Use variable */
-    border: 1px solid var(--category-button-hover-bg); /* Match border to background on hover */
+    background-color: var(--category-button-hover-bg);
+    border: 1px solid var(--category-button-hover-bg);
     outline: none;
 }
 
 .category-button.active {
-    background-color: var(--category-button-active-bg); /* Use variable */
-    color: var(--category-button-active-text); /* Use variable */
+    background-color: var(--category-button-active-bg);
+    color: var(--category-button-active-text);
     font-weight: bold;
-    box-shadow: 0 2px 5px var(--box-shadow-color); /* Use variable */
+    box-shadow: 0 2px 5px var(--box-shadow-color);
     outline: none;
     border: none;
 }
@@ -113,32 +110,32 @@
 }
 
 .create-board-button {
-    background-color: var(--create-board-button-bg); /* Use variable */
-    color: var(--create-board-button-text); /* Use variable */
+    background-color: var(--create-board-button-bg); 
+    color: var(--create-board-button-text);
     padding: 12px 25px;
     border-radius: 8px;
     text-decoration: none;
     transition: background-color 0.2s ease, transform 0.1s ease, border-color 0.2s ease, color 0.2s ease;
     white-space: nowrap;
-    box-shadow: 0 2px 4px var(--box-shadow-color); /* Use variable */
-    border: 1px solid var(--create-board-button-border); /* Use variable */
+    box-shadow: 0 2px 4px var(--box-shadow-color);
+    border: 1px solid var(--create-board-button-border);
     display: inline-block;
 }
 
 .create-board-button:hover {
-    background-color: var(--create-board-button-hover-bg); /* Use variable */
+    background-color: var(--create-board-button-hover-bg);
     transform: translateY(-2px);
-    border-color: var(--create-board-button-hover-border); /* Use variable */
+    border-color: var(--create-board-button-hover-border); 
 }
 
-.board-list-container { /* This was main in your previous structure for the grid */
+.board-list-container { 
     margin-top: 20px;
 }
 
 .board-list {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-    gap: 30px; /* Use original gap */
+    gap: 30px; 
     padding: 10px;
 }
 
@@ -146,7 +143,7 @@
     background-color: var(--card-bg); 
     border: 1px solid var(--card-border); 
     border-radius: 8px;
-    box-shadow: 0 4px 8px var(--box-shadow-color); /* Use variable */
+    box-shadow: 0 4px 8px var(--box-shadow-color);
     overflow: hidden;
     display: flex;
     flex-direction: column;
@@ -156,15 +153,15 @@
 
 .board-card:hover {
     transform: translateY(-5px);
-    box-shadow: 0 8px 16px var(--box-shadow-color); /* Stronger shadow on hover */
+    box-shadow: 0 8px 16px var(--box-shadow-color); 
 }
 
 .board-link {
     text-decoration: none;
-    color: var(--text-color); /* Use variable */
+    color: var(--text-color);
     display: block;
     flex-grow: 1;
-    padding-bottom: 15px; /* Space for content above button */
+    padding-bottom: 15px;
 }
 
 .board-image {
@@ -172,36 +169,34 @@
     height: 180px;
     object-fit: cover;
     display: block;
-    border-bottom: 1px solid var(--card-border); /* Use variable */
+    border-bottom: 1px solid var(--card-border);
 }
 
 .card-title {
     font-size: 1.5em;
     margin: 15px 15px 5px;
-    color: var(--text-color); /* Use variable */
+    color: var(--text-color);
 }
 
 .board-description, .board-category, .board-author {
     font-size: 0.95em;
     margin: 5px 15px;
-    color: var(--text-color); /* Use variable */
+    color: var(--text-color);
 }
 
 .no-boards-message {
     text-align: center;
-    grid-column: 1 / -1; /* Spans across all columns in the grid */
+    grid-column: 1 / -1; 
     font-size: 1.2em;
-    color: var(--muted-text-color); /* Use variable */
+    color: var(--muted-text-color); 
     padding: 60px 20px;
-    background-color: var(--muted-bg); /* Use variable */
+    background-color: var(--muted-bg);
     border-radius: 10px;
     margin-top: 20px;
     transition: background-color 0.3s ease, color 0.3s ease;
 }
-
-/* Theme toggle button specific styles (from previous implementation) */
 .theme-toggle-button {
-    background-color: var(--button-info-bg);
+    background-color: var(--button-primary-bg);
     color: var(--button-info-text);
     border: none;
     border-radius: 5px;
@@ -209,21 +204,38 @@
     font-size: 0.9em;
     cursor: pointer;
     transition: background-color 0.3s ease, color 0.3s ease;
-    margin-right: 15px; /* Spacing from Create Board button */
-
-    /* For Font Awesome Icons */
+    margin-right: 15px; 
     display: flex;
     align-items: center;
-    gap: 8px; /* Space between icon and text */
+    gap: 8px; 
     justify-content: center;
-    white-space: nowrap; /* Prevent wrapping for text like "Dark Mode" */
+    white-space: nowrap;
 }
 
 .theme-toggle-button:hover {
-    background-color: #138496; /* Darker cyan */
+    background-color: var(--button-primary-hover-bg);
 }
 
-/* Ensure modal styles in Modal.css also use variables if not already */
-/* Example: */
-/* .modal-overlay { background-color: var(--modal-overlay-bg); } */
-/* .modal-content { background-color: var(--modal-content-bg); color: var(--text-color); } */
+footer {
+    color: var(--footer-text, #ffffff);  
+    padding: 20px;
+    text-align: center;
+    width: 100%;
+    border-top: 1px solid var(--footer-border, #495057);
+    transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease;
+}
+
+.container {
+    display: flex;
+    flex-direction: column; 
+    min-height: 100vh;
+}
+
+.content {
+    flex: 1;
+    padding: 20px; 
+    box-sizing: border-box; 
+    background-color: var(--background-color); 
+    color: var(--text-color);
+    transition: background-color 0.3s ease, color 0.3s ease;
+}

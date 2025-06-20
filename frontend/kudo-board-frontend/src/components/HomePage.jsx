@@ -49,7 +49,7 @@ const HomePage = ({ kudosBoards, onDelete, onAddBoard, theme, toggleTheme }) => 
                     )}
                 </button>
             </header>
-            <main>
+            <main className="content">
                 <div className="actions">
                     <div className="search-section">
                         <input
@@ -91,9 +91,7 @@ const HomePage = ({ kudosBoards, onDelete, onAddBoard, theme, toggleTheme }) => 
                     )}
                 </div>
             </main>
-            <footer className="footer">
-                2025 Eniola Olawumi Farinde Kudo's Board
-            </footer>
+            <footer className="footer"> &copy; 2025 Eniola Olawumi Farinde Kudo's Board</footer>
 
             <Modal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)}>
                 <CreateBoard onAddBoard={handleCreateBoardSubmit} onCloseModal={() => setIsModalOpen(false)} />
