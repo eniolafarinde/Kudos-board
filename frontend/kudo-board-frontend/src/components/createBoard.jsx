@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import './CreateBoard.css';
+import './createBoard.css';
 import { getBaseUrl } from '../utils';
 
 const CreateBoard = ({ onAddBoard }) => {
