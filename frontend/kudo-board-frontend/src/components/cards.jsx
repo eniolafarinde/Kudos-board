@@ -1,19 +1,19 @@
-import React, { useState, useEffect, useCallback } from 'react';
+import React, { useState, useEffect, useCallback, useMemo } from 'react'; // Added useMemo
 import { useParams, Link } from 'react-router-dom';
 import Modal from './Modal';
-import CreateCard from './createCard'; 
-import './cards.css'; 
+import CreateCard from './createCard';
 import CommentModalContent from './CommentModal';
+import './cards.css';
 
-const CardsPage = ({ onAddCard, onAddComment, onGetCommentsByCardId }) => {
+const CardsPage = ({ onAddCard, onAddComment, onGetCommentsByCardId, onPinToggle }) => { // <--- NEW PROP
     const { id: boardId } = useParams();
     const [board, setBoard] = useState(null);
     const [cards, setCards] = useState([]);
     const [isLoading, setIsLoading] = useState(true);
     const [error, setError] = useState(null);
     const [isCreateCardModalOpen, setIsCreateCardModalOpen] = useState(false);
-    const [isCommentModalOpen, setIsCommentModalOpen] = useState(false); 
-    const [selectedCard, setSelectedCard] = useState(null); 
+    const [isCommentModalOpen, setIsCommentModalOpen] = useState(false);
+    const [selectedCard, setSelectedCard] = useState(null);
 
     const getBoardById = useCallback(async (id) => {
         try {
@@ -85,17 +85,32 @@ const CardsPage = ({ onAddCard, onAddComment, onGetCommentsByCardId }) => {
             );
         } catch (err) {
             console.error("Upvote failed:", err);
+            alert(err.message || "Failed to upvote card. Please try again.");
         }
     };
 
     const handleDelete = async (cardId) => {
+        if (!window.confirm("Are you sure you want to delete this card?")) return;
         try {
-            await fetch(`http://localhost:3000/api/board/${boardId}/cards/${cardId}`, {
+            const res = await fetch(`http://localhost:3000/api/board/${boardId}/cards/${cardId}`, {
                 method: 'DELETE'
             });
-            setCards(prev => prev.filter(card => card.id !== cardId));
+            setCards(prevCards => prevCards.filter(card => card.id !== cardId));
         } catch (err) {
             console.error("Delete failed:", err);
+            alert(err.message || "Failed to delete card. Please try again.");
+        }
+    };
+
+    const handlePinToggle = async (cardId) => {
+        try {
+            const updatedCard = await onPinToggle(cardId);
+            setCards(prevCards =>
+                prevCards.map(card => (card.id === cardId ? updatedCard : card))
+            );
+        } catch (err) {
+            console.error("Pin toggle failed:", err);
+            alert(err.message || "Failed to change pin status. Please try again.");
         }
     };
 
@@ -109,6 +124,27 @@ const CardsPage = ({ onAddCard, onAddComment, onGetCommentsByCardId }) => {
         setIsCommentModalOpen(false);
     };
 
+    const sortedCards = useMemo(() => {
+        if (!cards || cards.length === 0) return [];
+
+        const pinned = cards.filter(card => card.isPinned);
+        const unpinned = cards.filter(card => !card.isPinned);
+
+        pinned.sort((a, b) => {
+            if (!a.pinnedAt && !b.pinnedAt) return 0;
+            if (!a.pinnedAt) return 1; 
+            if (!b.pinnedAt) return -1; 
+            return new Date(b.pinnedAt).getTime() - new Date(a.pinnedAt).getTime();
+        });
+
+        unpinned.sort((a, b) => {
+            return new Date(a.createdAt).getTime() - new Date(b.createdAt).getTime();
+        });
+
+        return [...pinned, ...unpinned];
+    }, [cards]);
+
+
     if (isLoading) return <div className="cards-page-loading">Loading board...</div>;
     if (error) return <div className="cards-page-error">Error: {error}</div>;
     if (!board && !isLoading && !error) return <div className="cards-page-empty">Board data could not be loaded.</div>;
@@ -120,22 +156,31 @@ const CardsPage = ({ onAddCard, onAddComment, onGetCommentsByCardId }) => {
             <div className="board-meta">
                 Category: {board.category}
             </div>
+
             <div className="create-card-section">
-                <button onClick={() => setIsCreateCardModalOpen(true)} className="create-card-button"> Create a New Card </button>
+                <button onClick={() => setIsCreateCardModalOpen(true)} className="create-card-button">
+                    Create a New Card
+                </button>
             </div>
+
             <div className="card-list">
-                {cards.length > 0 ? (
-                    cards.map(card => (
-                        <div key={card.id} className="card-item">
+                {sortedCards.length > 0 ? ( 
+                    sortedCards.map(card => (
+                        <div key={card.id} className={`card-item ${card.isPinned ? 'pinned-card' : ''}`}> {/* --- ADD CLASS FOR VISUAL FEEDBACK --- */}
+                            {card.isPinned && <span className="pin-icon" title="Pinned">&#128204;</span>} {/* --- PIN ICON --- */}
                             <div className="card-content-clickable" onClick={() => handleOpenCommentModal(card)}>
                                 <h3 className="card-item-message">{card.title}</h3>
                                 <p className="card-item-message">{card.description}</p>
                                 {card.gifUrl && <img src={card.gifUrl} alt="Card GIF" className="card-item-gif" />}
                                 {card.author && <p className="card-item-author">From: {card.author}</p>}
                             </div>
+
                             <div className="card-action">
                                 <button onClick={() => handleUpvote(card.id)}>👍 {card.upvote}</button>
                                 <button onClick={() => handleDelete(card.id)}>🗑️</button>
+                                <button onClick={() => handlePinToggle(card.id)}>
+                                    {card.isPinned ? 'Unpin' : 'Pin'} &#128204; 
+                                </button>
                             </div>
                         </div>
                     ))
@@ -143,19 +188,21 @@ const CardsPage = ({ onAddCard, onAddComment, onGetCommentsByCardId }) => {
                     <p className="no-cards-message">No cards found for this board. Be the first to create one!</p>
                 )}
             </div>
+
             <Modal isOpen={isCreateCardModalOpen} onClose={() => setIsCreateCardModalOpen(false)}>
                 <CreateCard
                     onAddCard={handleCreateCardSubmit}
                     onCloseModal={() => setIsCreateCardModalOpen(false)}
                 />
             </Modal>
+
             <Modal isOpen={isCommentModalOpen} onClose={handleCloseCommentModal}>
                 {selectedCard && (
                     <CommentModalContent
                         card={selectedCard}
                         onClose={handleCloseCommentModal}
-                        onCommentAdded={onAddComment} // Pass the API function from App.jsx
-                        getCommentsApi={onGetCommentsByCardId} // Pass the API function from App.jsx
+                        onCommentAdded={onAddComment}
+                        getCommentsApi={onGetCommentsByCardId}
                     />
                 )}
             </Modal>

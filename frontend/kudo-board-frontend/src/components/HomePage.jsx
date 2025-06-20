@@ -90,3 +90,4 @@ const HomePage = ({ kudosBoards, onDelete, onAddBoard }) => {
 };
 
 export default HomePage;
+

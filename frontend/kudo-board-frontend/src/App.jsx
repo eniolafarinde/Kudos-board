@@ -94,6 +94,26 @@ function App() {
       }
   }, []);
 
+  const toggleCardPinApi = useCallback(async (cardId) => {
+      try {
+          const response = await fetch(`http://localhost:3000/api/cards/${cardId}/pin`, {
+              method: "PATCH",
+              headers: {
+                  "Content-Type": "application/json"
+              },
+          });
+          if (!response.ok) {
+              const errorBody = await response.json().catch(() => ({ message: 'Unknown error' }));
+              throw new Error(`Failed to toggle pin status: ${response.status} ${errorBody.message || response.statusText}`);
+          }
+          const updatedCard = await response.json();
+          return updatedCard;
+      } catch (err) {
+          console.error(`Error toggling pin status for card ${cardId}:`, err);
+          throw err;
+      }
+  }, []);
+
 
   useEffect(() => {
     const fetchBoards = async () => {
@@ -139,7 +159,7 @@ function App() {
             }/>
           <Route
             path="/boards/:id"
-            element={<CardsPage onAddCard={handleAddCard} onAddComment={addCommentToCardApi} onGetCommentsByCardId={getCommentsByCardIdApi}/>}
+            element={<CardsPage onAddCard={handleAddCard} onAddComment={addCommentToCardApi} onGetCommentsByCardId={getCommentsByCardIdApi} onPinToggle={toggleCardPinApi}/>}
           />
         </Routes>
       </Router>

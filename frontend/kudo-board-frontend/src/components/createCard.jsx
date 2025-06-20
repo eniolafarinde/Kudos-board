@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import './createCard.css'; 
-// const api_key = import.meta.env.VITE_API_KEY;
+const api_key = import.meta.env.VITE_API_KEY;
 
 const CreateCard = ({ onAddCard, onCloseModal }) => {
     const [title, setTitle] = useState('');
@@ -21,7 +21,7 @@ const CreateCard = ({ onAddCard, onCloseModal }) => {
         setIsSearchingGiphy(true);
         try {
             const response = await fetch(
-                `https://api.giphy.com/v1/gifs/search?api_key=THbFLWAypFZiA68NHsIpmc07sbRbaMB6&q=${searchTerm}&limit=10&offset=0&rating=g&lang=en`
+                `https://api.giphy.com/v1/gifs/search?api_key=${api_key}&q=${searchTerm}&limit=10&offset=0&rating=g&lang=en`
             );
             if (!response.ok) {
                 const errorBody = await response.text();
