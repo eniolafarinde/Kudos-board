@@ -11,7 +11,7 @@ router.post("/api/board/create", validateCreateBoard, async(req, res) => {
     const getImage = (width = 400, height = 200) => {
     return `https://picsum.photos/${width}/${height}?random=${Math.random()}`
     }
-    
+
     console.log(res)
 
     const { body : { title, category, author}} = req
@@ -26,25 +26,36 @@ router.post("/api/board/create", validateCreateBoard, async(req, res) => {
     res.json(board)
 })
 
-// view a board
-router.get("/api/board/view", validateId, async(req, res) => {
-    const { body : { id } } = req
-    const board = await prisma.board.findFirst({
-        where : {
-            id : id
-        },
-        include : {
-            cards : true
-        }
-    })
-    res.status(200).json(board.cards)
-})
-
 // view all board
 router.get("/api/board/all", async(req, res) => {
     const boards = await prisma.board.findMany()
-    res.status(200).json(boards)
+    res.json(boards)
 })
+
+// view a board
+router.get("/api/board/:id", async (req, res) => {
+    const { id: paramId } = req.params; 
+    const boardId = parseInt(paramId, 10); 
+    if (isNaN(boardId)) {
+        return res.status(400).json({ message: "Invalid Board ID format. Expected an integer." });
+    }
+
+    try {
+        const board = await prisma.board.findUnique({ 
+            where: { id: boardId },
+            include: { cards: true },
+        });
+
+        if (!board) {
+            return res.status(404).json({ message: "Board not found" });
+        }
+        res.json(board);
+    } catch (error) {
+        console.error("Error fetching board by ID:", error);
+        res.status(500).json({ message: "Failed to fetch board", error: error.message });
+    }
+});
+
 
 // delete a board
 
@@ -60,7 +71,7 @@ router.delete("/api/board/delete", validateId, async(req, res) => {
             id : id
         }
     })
-    res.status(200).json(deletedCard)
+    res.json(deletedCard)
 })
 
 module.exports = router

@@ -14,5 +14,5 @@ const validateId = (req, res, next) => {
 
 module.exports = {
     validateCreateBoard,
-    validateId
+    validateId,
 }
