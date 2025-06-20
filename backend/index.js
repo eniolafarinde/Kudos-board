@@ -3,6 +3,7 @@ const { json } = express
 const cors = require("cors")
 const dotenv = require("dotenv")
 const boardRoutes = require("./BoardRoutes/boardRoutes.js")
+const cardRoutes = require("./CardRoutes/cardRoutes.js")
 
 dotenv.config()
 
@@ -11,8 +12,9 @@ const app = express()
 
 app.use(json())
 app.use(cors())
-app.use(boardRoutes)
+app.use(boardRoutes);
+app.use(cardRoutes);
 
 app.listen(PORT, () => {
-    console.log(`Server started o port ${PORT}`)
+    console.log(`Server started on port ${PORT}`)
 })

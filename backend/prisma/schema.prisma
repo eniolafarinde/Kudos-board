@@ -27,8 +27,9 @@ model Card {
   id Int @id @default(autoincrement())
   title String 
   description String
-  gifUrll String
+  gifUrl String?
   upvote Int @default(0)
   board Board @relation(fields: [boardId], references: [id])
   boardId Int 
+  
 }

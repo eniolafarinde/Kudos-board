@@ -6,8 +6,8 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "dev": "node --env-file=.env",
     "server": "nodemon ./index.js",
-    "db:reset" : "npx prisma migrate reset",
-    "db:start" : "npx prisma migrate dev"
+    "db:reset": "npx prisma migrate reset",
+    "db:start": "npx prisma migrate dev"
   },
   "keywords": [],
   "author": "",
@@ -18,8 +18,10 @@
     "cors": "^2.8.5",
     "dotenv": "^16.5.0",
     "express": "^5.1.0",
-    "nodemon": "^3.1.10",
-    "prisma": "^6.10.0"
+    "nodemon": "^3.1.10"
   },
-  "type": "commonjs"
+  "type": "commonjs",
+  "devDependencies": {
+    "prisma": "^6.10.1"
+  }
 }

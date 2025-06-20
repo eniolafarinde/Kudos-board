@@ -12,7 +12,9 @@ const validateId = (req, res, next) => {
     next()
 }
 
+
 module.exports = {
     validateCreateBoard,
     validateId,
+
 }
