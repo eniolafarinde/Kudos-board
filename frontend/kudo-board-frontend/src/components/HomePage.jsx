@@ -91,7 +91,7 @@ const HomePage = ({ kudosBoards, onDelete, onAddBoard, theme, toggleTheme }) => 
                     )}
                 </div>
             </main>
-            <footer className="footer"> &copy; 2025 Eniola Olawumi Farinde Kudo's Board</footer>
+            <footer className="footer"> &copy; 2025 Eniola Olawumi Farinde Kudos Board</footer>
 
             <Modal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)}>
                 <CreateBoard onAddBoard={handleCreateBoardSubmit} onCloseModal={() => setIsModalOpen(false)} />
