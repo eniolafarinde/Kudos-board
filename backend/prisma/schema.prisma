@@ -31,5 +31,15 @@ model Card {
   upvote Int @default(0)
   board Board @relation(fields: [boardId], references: [id])
   boardId Int 
+  comments Comment[]
   
+}
+
+model Comment {
+  id        Int      @id @default(autoincrement())
+  message   String   
+  author    String?  
+  createdAt DateTime @default(now())
+  card      Card     @relation(fields: [cardId], references: [id])
+  cardId    Int     
 }
