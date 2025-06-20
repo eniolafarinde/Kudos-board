@@ -1,0 +1,180 @@
+.create-card-container {
+    background-color: #ffffff;
+    border-radius: 8px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+    padding: 25px 35px;
+    max-width: 500px;
+    margin: 30px auto; 
+    color: #333;
+    position: relative;
+}
+
+.create-card-title {
+    text-align: center;
+    color: #2c3e50;
+    margin-bottom: 25px;
+    font-size: 1.8em;
+    font-weight: 600;
+}
+
+.form-group {
+    margin-bottom: 20px;
+}
+
+.form-group label {
+    display: block; 
+    margin-bottom: 8px;
+    font-weight: 500;
+    color: #555;
+    font-size: 0.95em;
+    text-align: left;
+}
+
+.form-group input[type="text"],
+.form-group textarea {
+    width: calc(100% - 20px); 
+    padding: 12px 10px;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    font-size: 1em;
+    box-sizing: border-box;
+    transition: border-color 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+}
+
+.form-group input[type="text"]:focus,
+.form-group textarea:focus {
+    border-color: #2b7069; 
+    box-shadow: 0 0 0 3px rgba(25, 120, 93, 0.2);
+    outline: none; 
+}
+
+.form-group textarea {
+    resize: vertical; 
+    min-height: 80px; 
+}
+
+.giphy-search-group .search-input-group {
+    display: flex; 
+    gap: 10px; 
+}
+
+.giphy-search-group .search-input-group input {
+    flex-grow: 1;
+}
+
+.giphy-search-group .search-input-group button {
+    padding: 10px 15px;
+    background-color: #348a82; 
+    color: white;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 0.95em;
+    transition: background-color 0.2s ease-in-out, opacity 0.2s ease-in-out;
+    white-space: nowrap;
+}
+
+.giphy-search-group .search-input-group button:hover:not(:disabled) {
+    background-color: #2b7069; 
+}
+
+.giphy-search-group .search-input-group button:disabled {
+    background-color: #cccccc;
+    cursor: not-allowed;
+    opacity: 0.7;
+}
+
+.gif-results {
+    display: grid; 
+    grid-template-columns: repeat(auto-fill, minmax(100px, 1fr)); 
+    gap: 10px;
+    margin-top: 15px;
+    max-height: 250px;
+    overflow-y: auto; 
+    border: 1px solid #eee;
+    border-radius: 6px;
+    padding: 10px;
+    background-color: #fcfcfc;
+}
+
+.gif-results img {
+    width: 100%;
+    height: 100px;
+    object-fit: cover;
+    border-radius: 4px;
+    cursor: pointer;
+    border: 2px solid transparent;
+    transition: border-color 0.2s ease-in-out, transform 0.1s ease-in-out;
+}
+
+.gif-results img:hover {
+    border-color: #2b7069;
+    transform: scale(1.02);
+}
+
+.gif-results img.selected {
+    border-color: #2b7069; 
+    box-shadow: 0 0 0 3px rgba(25, 120, 93, 0.2);
+}
+.selected-image-preview {
+    margin-top: 20px;
+    padding: 15px;
+    border: 1px dashed #aed6f1;
+    border-radius: 8px;
+    background-color: #e8f5fd;
+    text-align: center;
+}
+
+.selected-image-preview p {
+    margin-top: 0;
+    margin-bottom: 10px;
+    font-weight: 500;
+    color: #2b7069;
+}
+
+.selected-image-preview img {
+    max-width: 100%;
+    height: auto;
+    border-radius: 6px;
+    margin-bottom: 10px;
+}
+
+.selected-image-preview .clear-image-button {
+    background-color: #e74c3c;
+    color: white;
+    border: none;
+    padding: 8px 15px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 0.85em;
+    transition: background-color 0.2s ease-in-out;
+}
+
+.selected-image-preview .clear-image-button:hover {
+    background-color: #c0392b; 
+}
+
+.submit-button {
+    width: 100%;
+    padding: 15px;
+    background-color: #348a82;
+    color: white;
+    border: none;
+    border-radius: 6px;
+    font-size: 1.1em;
+    font-weight: 600;
+    cursor: pointer;
+    margin-top: 20px;
+    transition: background-color 0.2s ease-in-out, transform 0.1s ease-in-out;
+}
+
+.submit-button:hover {
+    background-color: #2b7069; 
+    transform: translateY(-2px); 
+}
+
+.submit-button:disabled {
+    background-color: #cccccc;
+    cursor: not-allowed;
+    opacity: 0.7;
+}

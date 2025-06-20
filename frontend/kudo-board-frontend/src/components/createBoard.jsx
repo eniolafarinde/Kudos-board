@@ -1,9 +1,6 @@
 import React, { useState } from 'react';
 import './CreateBoard.css';
 
-const imageUrl = (width = 400, height = 200) => {
-    return `https://picsum.photos/${width}/${height}?random=${Math.random()}`;
-};
 
 const CreateBoard = ({ onAddBoard }) => {
     const [title, setTitle] = useState('');
@@ -18,8 +15,6 @@ const CreateBoard = ({ onAddBoard }) => {
             category : category,
             author: author
         };
-
-        // fetch
         try {
             const response = await fetch("http://localhost:3000/api/board/create", {
                 method : "POST",
@@ -36,7 +31,6 @@ const CreateBoard = ({ onAddBoard }) => {
         setTitle('');
         setDescription('');
         setCategory('celebration');
-        setImage(imageUrl(400, 200));
         setAuthor('');
 
     };

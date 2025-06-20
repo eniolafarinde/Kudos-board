@@ -81,17 +81,6 @@
     margin-top: 30px;
 }
 
-.card-item {
-    background-color: #ffffff;
-    border: 1px solid #ddd;
-    border-radius: 10px;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
-    overflow: hidden;
-    transition: transform 0.2s ease;
-    display: flex;
-    flex-direction: column;
-}
-
 .card-item:hover {
     transform: translateY(-5px);
 }
@@ -123,4 +112,28 @@
     color: #777;
     font-style: italic;
     padding: 20px;
+}
+
+.card-action button{
+    background-color: #fff;
+    border: none;
+    outline: none;
+    cursor: pointer;
+    padding: 0.6em 1.2em;
+}
+
+.card-item {
+    background-color: #ffffff;
+    border: 1px solid #ddd;
+    border-radius: 10px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+    overflow: hidden;
+    transition: transform 0.2s ease;
+    display: flex;
+    flex-direction: column;
+    display: flex;
+    flex-direction: column; 
+    justify-content: space-between; 
+    min-height: 300px; 
+    position: relative; 
 }

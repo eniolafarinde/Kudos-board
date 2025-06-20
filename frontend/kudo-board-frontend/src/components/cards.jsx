@@ -40,7 +40,7 @@ const CardsPage = ({ onAddCard }) => {
             console.error("Error fetching cards:", err);
             throw err;
         }
-    }, []);
+    }, [boardId]);
 
     useEffect(() => {
         const fetchBoardAndCards = async () => {
@@ -73,7 +73,7 @@ const CardsPage = ({ onAddCard }) => {
 
     const handleUpvote = async (cardId) => {
         try {
-            const res = await fetch(`http://localhost:3000/api/cards/${cardId}/upvote`, {
+            const res = await fetch(`http://localhost:3000/api/board/${boardId}/cards/${cardId}/upvote`, {
                 method: 'PATCH'
             });
             const updatedCard = await res.json();
@@ -86,9 +86,8 @@ const CardsPage = ({ onAddCard }) => {
     };
 
     const handleDelete = async (cardId) => {
-        if (!window.confirm("Are you sure you want to delete this card?")) return;
         try {
-            await fetch(`http://localhost:3000/api/cards/${cardId}`, {
+            await fetch(`http://localhost:3000/api/board/${boardId}/cards/${cardId}`, {
                 method: 'DELETE'
             });
             setCards(prev => prev.filter(card => card.id !== cardId));
@@ -108,22 +107,19 @@ const CardsPage = ({ onAddCard }) => {
             <div className="board-meta">
                 Category: {board.category}
             </div>
-
             <div className="create-card-section">
-                <button onClick={() => setIsCreateCardModalOpen(true)} className="create-card-button">
-                    Create a New Card
-                </button>
+                <button onClick={() => setIsCreateCardModalOpen(true)} className="create-card-button"> Create a New Card </button>
             </div>
-
             <div className="card-list">
                 {cards.length > 0 ? (
                     cards.map(card => (
                         <div key={card.id} className="card-item">
+                            <h3 className="card-item-message">{card.title}</h3>
+                            <p className="card-item-message">{card.description}</p>
                             {card.gifUrl && <img src={card.gifUrl} alt="Card GIF" className="card-item-gif" />}
-                            <p className="card-item-message">{card.message}</p>
                             {card.author && <p className="card-item-author">From: {card.author}</p>}
-                            <div className="card-actions">
-                                <button onClick={() => handleUpvote(card.id)}>👍 {card.upvotes}</button>
+                            <div className="card-action">
+                                <button onClick={() => handleUpvote(card.id)}>👍 {card.upvote}</button>
                                 <button onClick={() => handleDelete(card.id)}>🗑️</button>
                             </div>
                         </div>
@@ -132,7 +128,6 @@ const CardsPage = ({ onAddCard }) => {
                     <p className="no-cards-message">No cards found for this board. Be the first to create one!</p>
                 )}
             </div>
-
             <Modal isOpen={isCreateCardModalOpen} onClose={() => setIsCreateCardModalOpen(false)}>
                 <CreateCard
                     onAddCard={handleCreateCardSubmit}
