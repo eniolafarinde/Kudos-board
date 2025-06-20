@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import './CreateBoard.css';
-
+import { getBaseUrl } from '../utils';
 
 const CreateBoard = ({ onAddBoard }) => {
     const [title, setTitle] = useState('');
@@ -16,7 +16,7 @@ const CreateBoard = ({ onAddBoard }) => {
             author: author
         };
         try {
-            const response = await fetch("http://localhost:3000/api/board/create", {
+            const response = await fetch(`${getBaseUrl()}/api/board/create`, {
                 method : "POST",
                 headers : {
                     "Content-Type" : "application/json"

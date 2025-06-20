@@ -4,6 +4,7 @@ import Modal from './Modal';
 import CreateCard from './createCard';
 import CommentModalContent from './CommentModal';
 import './cards.css';
+import { getBaseUrl } from '../utils';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faThumbsUp, faTrashCan, faThumbtack} from '@fortawesome/free-solid-svg-icons';
 
@@ -18,7 +19,7 @@ const CardsPage = ({ onAddCard, onAddComment, onGetCommentsByCardId, onPinToggle
     const [selectedCard, setSelectedCard] = useState(null);
 
     const getBoardById = useCallback(async (id) => {
-        const response = await fetch(`http://localhost:3000/api/board/${id}`);
+        const response = await fetch(`${getBaseUrl()}/api/board/${id}`);
         if (response.status === 404) {
             return null;
         }
@@ -28,7 +29,7 @@ const CardsPage = ({ onAddCard, onAddComment, onGetCommentsByCardId, onPinToggle
 
     const getCardsByBoardId = useCallback(async (id) => {
         try {
-            const response = await fetch(`http://localhost:3000/api/board/${id}/cards`);
+            const response = await fetch(`${getBaseUrl()}/api/board/${id}/cards`);
             if (!response.ok) {
                 if (response.status === 404) return [];
                 throw new Error(`HTTP error! status: ${response.status}`);
@@ -72,7 +73,7 @@ const CardsPage = ({ onAddCard, onAddComment, onGetCommentsByCardId, onPinToggle
 
     const handleUpvote = async (cardId) => {
         try {
-            const res = await fetch(`http://localhost:3000/api/board/${boardId}/cards/${cardId}/upvote`, {
+            const res = await fetch(`${getBaseUrl()}/api/board/${boardId}/cards/${cardId}/upvote`, {
                 method: 'PATCH'
             });
             const updatedCard = await res.json();
@@ -88,7 +89,7 @@ const CardsPage = ({ onAddCard, onAddComment, onGetCommentsByCardId, onPinToggle
     const handleDelete = async (cardId) => {
         if (!window.confirm("Are you sure you want to delete this card?")) return;
         try {
-            const res = await fetch(`http://localhost:3000/api/board/${boardId}/cards/${cardId}`, {
+            const res = await fetch(`${getBaseUrl()}/api/board/${boardId}/cards/${cardId}`, {
                 method: 'DELETE'
             });
             setCards(prevCards => prevCards.filter(card => card.id !== cardId));

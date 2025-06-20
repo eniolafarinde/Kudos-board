@@ -2,6 +2,7 @@ import React, { useState, useEffect, useCallback } from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import HomePage from './components/HomePage';
 import CardsPage from './components/cards'; 
+import { getBaseUrl } from './utils';
 import './App.css';
 
 function App() {
@@ -21,13 +22,13 @@ function App() {
   }, []);
 
   const getAllBoards = useCallback(async () => {
-    const res = await fetch("http://localhost:3000/api/board/all");
+    const res = await fetch( `${getBaseUrl()}/api/board/all`);
     const data = await res.json();
     return data;
   }, []);
 
   const deleteBoardApi = useCallback(async (boardId) => {
-    const res = await fetch("http://localhost:3000/api/board/delete", {
+    const res = await fetch(`${getBaseUrl()}/api/board/delete`, {
       method: "DELETE",
       headers: {
         "Content-Type": "application/json"
@@ -37,7 +38,7 @@ function App() {
   }, []);
 
   const addBoardApi = useCallback(async (newBoardData) => {
-      const response = await fetch("http://localhost:3000/api/board/create", {
+      const response = await fetch(`${getBaseUrl()}/api/board/create`, {
           method: "POST",
           headers: {
               "Content-Type": "application/json"
@@ -55,7 +56,7 @@ function App() {
   }, [getRandomImageUrl]);
 
   const addCardToBoardApi = useCallback(async (boardId, newCardData) => {
-      const response = await fetch(`http://localhost:3000/api/board/${boardId}/cards/create`, {
+      const response = await fetch(`${getBaseUrl()}/api/board/${boardId}/cards/create`, {
           method: "POST",
           headers: {
               "Content-Type": "application/json"
@@ -68,7 +69,7 @@ function App() {
 
   const getCommentsByCardIdApi = useCallback(async (cardId) => {
       try {
-          const response = await fetch(`http://localhost:3000/api/cards/${cardId}/comments`);
+          const response = await fetch(`${getBaseUrl()}/api/cards/${cardId}/comments`);
           if (!response.ok) {
               if (response.status === 404) return []; 
               const errorBody = await response.json().catch(() => ({ message: 'Unknown error' }));
@@ -84,7 +85,7 @@ function App() {
 
   const addCommentToCardApi = useCallback(async (cardId, newCommentData) => {
       try {
-          const response = await fetch(`http://localhost:3000/api/cards/${cardId}/comments`, {
+          const response = await fetch(`${getBaseUrl()}/api/cards/${cardId}/comments`, {
               method: "POST",
               headers: {
                   "Content-Type": "application/json"
@@ -105,7 +106,7 @@ function App() {
 
   const toggleCardPinApi = useCallback(async (cardId) => {
       try {
-          const response = await fetch(`http://localhost:3000/api/cards/${cardId}/pin`, {
+          const response = await fetch(`${getBaseUrl()}/api/cards/${cardId}/pin`, {
               method: "PATCH",
               headers: {
                   "Content-Type": "application/json"
