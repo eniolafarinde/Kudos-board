@@ -80,4 +80,39 @@ router.delete("/api/board/:boardId/cards/:cardId", async (req, res) => {
     }
 });
 
+router.patch("/api/cards/:cardId/pin", async (req, res) => {
+    const { cardId: paramCardId } = req.params;
+    const cardId = parseInt(paramCardId, 10);
+
+    if (isNaN(cardId)) {
+        return res.status(400).json({ message: "Invalid Card ID format." });
+    }
+
+    try {
+        const card = await prisma.card.findUnique({
+            where: { id: cardId },
+        });
+
+        if (!card) {
+            return res.status(404).json({ message: `Card with ID ${cardId} not found.` });
+        }
+
+        const newPinnedStatus = !card.isPinned; 
+        const newPinnedAt = newPinnedStatus ? new Date() : null;
+
+        const updatedCard = await prisma.card.update({
+            where: { id: cardId },
+            data: {
+                isPinned: newPinnedStatus,
+                pinnedAt: newPinnedAt,
+            },
+        });
+
+        res.json(updatedCard);
+    } catch (error) {
+        console.error(`Error toggling pin status for card ${cardId}:`, error);
+        res.status(500).json({ error: "Failed to toggle pin status", details: error.message });
+    }
+});
+
 module.exports = router;
